@@ -17,3 +17,11 @@ module.exports.signUp=function(req,res){
         title:"SocialBuzz || SignUp"
     })
 };
+
+module.exports.create=function(req,res){
+    //TODO later
+}
+
+module.exports.createSession=function(req,res){
+    //TODO later
+}
