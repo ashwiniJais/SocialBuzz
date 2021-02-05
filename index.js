@@ -3,10 +3,15 @@ const port=8000;
 
 const app=express();
 
+const expressLayouts=require('express-ejs-layouts');
+//use layouts in our page
+app.use(expressLayouts);
+
 //setting up ejs
 app.set('view engine','ejs');
 app.set('views','./views');
 
+//setting up route
 app.use('/',require('./routes/index'));
 
 app.listen(port,function(err){
