@@ -1,9 +1,25 @@
 const User=require('../models/user');
 
 module.exports.profile=function(req,res){
-    return res.render('user_profile',{
-        title:"SocialBuzz Profile"
-    });
+
+    if(req.cookies.user_id){
+        User.findOne({_id:req.cookies.user_id},function(err,user){
+            if(user){
+                res.render('user_profile',{
+                    title:"SocialBuzz ||Profile",
+                    user:user
+                })
+            }
+            else return res.redirect('back');
+        })
+    }
+    else
+    return res.redirect('/users/sign-in');
+
+
+    // return res.render('user_profile',{
+    //     title:"SocialBuzz Profile"
+    // });
   
     // return res.send('<h1>Profile</h1>');
 }
@@ -53,4 +69,32 @@ module.exports.create=function(req,res){
 
 module.exports.createSession=function(req,res){
     //TODO later
+    //steps
+    //check user exists or not
+    //if exist see if pwd is correct or not
+    //if pwd correct =>redirect to profile page else rediect to sign-in
+
+    //finding the user
+    User.findOne({email:req.body.email},function(err,user){
+        if(err){
+            console.log("Error in finding user while signing in",err);
+            return;
+        }
+        if(user){   //if user found
+            if(user.password!=req.body.password){
+                return res.redirect('back');
+            }
+            res.cookie('user_id',user._id);
+            return res.redirect('/users/profile');
+        }
+        //user not found
+        else{       
+            res.redirect('back');
+        }
+    });
+};
+
+module.exports.signOut=function(req,res){
+    res.clearCookie('user_id');
+    return res.redirect('/users/sign-in');
 }
