@@ -1,3 +1,7 @@
 module.exports.home=function(req,res){
-    return res.end('<h1>Controller connected</h1>');
+    return res.render('home',{
+        title:"SocialBuzz Home"
+    })
+    
+    //return res.end('<h1>Controller connected</h1>');
 }
