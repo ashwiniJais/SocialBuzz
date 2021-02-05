@@ -3,11 +3,12 @@ const port=8000;
 
 const app=express();
 
+
 const expressLayouts=require('express-ejs-layouts');
 
 //requiring DB
 const db=require('./config/mongoose');
-
+const User=require('./models/user');
 //use layouts in our page
 app.use(expressLayouts);
 
