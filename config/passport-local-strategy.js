@@ -1,10 +1,15 @@
 //requiring the library
 const passport=require('passport');
-const LocalStrategy=require('passports-local').Strategy;
+const LocalStrategy=require('passport-local').Strategy;
 
-//configuring the Strategy
-passport.use(new LocalStrategy(
-    function(email,passwoed,done){
+const User=require('../models/user');
+
+//configuring the Strategy authentication using passport
+passport.use(new LocalStrategy({
+    usernameField:'email'
+    },
+    function(email,password,done){
+        //finding user and establish identity
         User.findOne({email:email},function(err,user){
             if(err){
                 console.log("Error in finding the user -->Passport",err);
@@ -20,20 +25,19 @@ passport.use(new LocalStrategy(
     }
 ));
 
-//Sessions
-
+//serializing the user to decise which key is to be kept in the cookies
 passport.serializeUser(function(user,done){
     done(null,user.id);
 });
 
-//deserializet the user form the key in the user
+//deserialize the user form the key in the user
 passport.deserializeUser(function(id,done){
     User.findById(id,function(err,user){
         if(err){
             console.log("Error in finding user -> Deserializing in Passport");
             return done(err);
         }
-        return done(err,user);
+        return done(null,user);
     })
 });
 

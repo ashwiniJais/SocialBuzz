@@ -13,6 +13,13 @@ const cookieParser=require('cookie-parser');
 const db=require('./config/mongoose');
 const User=require('./models/user');
 
+//session cookie 
+const session=require('express-session');
+const passport=require('passport');
+const passportLocal=require('./config/passport-local-strategy');
+
+
+
 //use layouts in our page
 app.use(expressLayouts);
 
@@ -30,7 +37,23 @@ app.set('layout extractScripts',true);
 app.set('view engine','ejs');
 app.set('views','./views');
 
-//setting up route
+
+
+app.use(session({
+    name:'SocialBuzz',
+    //TODO chnage secret before deployment
+    secret:'ssshhhhitssecret',
+    resave:false,
+    saveUninitialized:false,
+    cookie:{
+        maxAge:(1000*60*20)
+    }
+}));
+
+//passport also helps in maintaing session
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use('/',require('./routes/index'));
 
 //using static files
