@@ -1,6 +1,5 @@
 const express=require('express');
 const port=8000;
-
 const app=express();
 
 //require library for layout
@@ -53,6 +52,8 @@ app.use(session({
 //passport also helps in maintaing session
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(passport.setAuthenticatedUser);
 
 app.use('/',require('./routes/index'));
 
