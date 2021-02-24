@@ -17,6 +17,7 @@ const session=require('express-session');
 const passport=require('passport');
 const passportLocal=require('./config/passport-local-strategy');
 
+const MongoStore = require('connect-mongo').default;
 
 
 //use layouts in our page
@@ -46,7 +47,11 @@ app.use(session({
     saveUninitialized:false,
     cookie:{
         maxAge:(1000*60*20)
-    }
+    },
+    store: MongoStore.create({
+        mongoUrl: 'mongodb://localhost/SocialBuzz_dev',
+        autoRemove: 'disabled' // Default
+      })
 }));
 
 //passport also helps in maintaing session
