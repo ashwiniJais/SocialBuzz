@@ -7,12 +7,14 @@
         <link rel="stylesheet" href="/css/layout.css">
         <link rel="stylesheet" href="/css/header.css">
         <link rel="stylesheet" href="/css/footer.css">
-        <%style%>
+        <%-style-%>
     </head>
     <body>
         <%-  include('_header'); -%>
 
+        <main id="layout_main">
         <%- body -%>
+        </main>
 
         <%-  include('_footer'); -%>
 
