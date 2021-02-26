@@ -19,6 +19,16 @@ const passportLocal=require('./config/passport-local-strategy');
 
 const MongoStore = require('connect-mongo').default;
 
+const sassMiddleware=require('node-sass-middleware');
+
+//using node-sass-middleware
+app.use(sassMiddleware({
+    src:'./assets/scss',
+    dest:'./assets/css',
+    debug:true,
+    outputStyle:'extended',
+    prefix:'/css'
+}));
 
 //use layouts in our page
 app.use(expressLayouts);
@@ -64,6 +74,9 @@ app.use('/',require('./routes/index'));
 
 //using static files
 app.use(express.static('./assets'));
+
+
+
 
 app.listen(port,function(err){
     if(err){
