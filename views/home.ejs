@@ -14,7 +14,7 @@
             <% for(post of posts){ %>
                 <li>
                     <p><%=post.content%></p>
-                    <p><%=post.user%></p>
+                    <small><%=post.user.name%></small>
                 </li>
             <%}%>
 
