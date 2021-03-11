@@ -18,10 +18,15 @@
         <ul>
             <% for(post of posts){ %>
                 <li>
+                     <% if (locals.user && locals.user.id==post.user.id){ %>
+                    <a href="posts/delete/<%=post.id%>">X</a>
+                    <%}%>
                     <p><%=post.content%></p>
+                    
                     <small><%=post.user.name%></small>
-
+                </li>
                     <div class="comments_form">
+
                         <% if(locals.user){ %>
 
                         <form action="/comments/create" method="post">
@@ -32,16 +37,21 @@
 
                         <%}%>
                     </div>
-                    <div class="comments_container">
-                        <% for(comment of post.comments){ %>
-                            <li>
-                                <p><%=comment.content%></p>
-                                <p><%=comment.user.name%></p>
-                            </li>
-                        <%}%>
-
-                    </div>
-                </li>
+                    <ul>
+                        <div class="comments_container">
+                            <% for(comment of post.comments){ %>
+                                <li>
+                                    <% if(locals.user&&locals.user.id==comment.user.id){ %>
+                                        <a href="/comments/delete/<%=comment._id%>">X</a>
+                                    <%}%>
+                                    <span><%=comment.content%></span>
+                                    <small><%=comment.user.name%></small>
+                                </li>
+                            <%}%>
+                        
+                        </div>
+                    </ul>
+                
             <%}%>
 
         </ul>
