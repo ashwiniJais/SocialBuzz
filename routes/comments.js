@@ -4,8 +4,8 @@ const express=require('express');
 
 const router=express.Router();
 
-const postController=require('../controllers/post_controller');
+const commentController=require('../controllers/comment_controller');
 
-router.post('/create',passport.checkAuthentication,postController.create);
+router.post('/create',passport.checkAuthentication,commentController.create);
 
 module.exports=router;

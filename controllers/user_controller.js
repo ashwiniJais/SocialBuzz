@@ -29,7 +29,7 @@ module.exports.signUp=function(req,res){
 //Signing up the user
 module.exports.create=function(req,res){
    //if passwords do not match
-   console.log(req.body);
+  // console.log(req.body);
     if(req.body.password!=req.body.confirm_password){
        return res.redirect('/users/sign-up');
    }
