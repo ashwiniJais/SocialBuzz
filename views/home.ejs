@@ -21,7 +21,7 @@
                     <p><%=post.content%></p>
                     <small><%=post.user.name%></small>
 
-                    <div id="comments_container">
+                    <div class="comments_form">
                         <% if(locals.user){ %>
 
                         <form action="/comments/create" method="post">
@@ -31,6 +31,15 @@
                         </form>
 
                         <%}%>
+                    </div>
+                    <div class="comments_container">
+                        <% for(comment of post.comments){ %>
+                            <li>
+                                <p><%=comment.content%></p>
+                                <p><%=comment.user.name%></p>
+                            </li>
+                        <%}%>
+
                     </div>
                 </li>
             <%}%>
