@@ -1,16 +1,34 @@
 const User=require('../models/user');
 
 module.exports.profile=function(req,res){
-    return res.render('user_profile',{
-        title:"SocialBuzz Profile"
-    });
+    User.findById(req.params.id,function(err,user){
+        return res.render('user_profile',{
+            title:"SocialBuzz Profile", 
+            profile_user:user
+        });
+    })
+    
   
     // return res.send('<h1>Profile</h1>');
 }
 
+module.exports.update=function(req,res){
+    User.findByIdAndUpdate(req.params.id,{
+        name:req.body.name,
+        email:req.body.email
+    },function(err,user){
+        if(err){
+            console.log("error in updating user details",err);
+            return res.redirect('back');
+        }
+        console.log("user's details updated successfully");
+        return res.redirect('back');
+    })
+}
+
 module.exports.signIn=function(req,res){
     if(req.isAuthenticated()){
-        return res.redirect('/users/profile');
+        return res.redirect('/');
     }
     return res.render('user_sign_in',{
         title:"SocialBuzz ||SignIn"

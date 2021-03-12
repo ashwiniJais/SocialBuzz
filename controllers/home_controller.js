@@ -1,4 +1,5 @@
 const Post=require('../models/posts');
+const User=require('../models/user');
 
 
 module.exports.home=function(req,res){
@@ -12,18 +13,16 @@ module.exports.home=function(req,res){
     }
   }).
   exec(function(err,post){
-    {
-      if(err){
-        console.log("Error in fetching all the posts from DB", err);
-        return;
-      };
-  
-      return res.render('home',{
+   User.find({},function(err,user){
+
+    return res.render('home',{
         title:"SocialBuzz | Home",
-        posts:post
+        posts:post,
+        all_user:user
       });
     
-    }
+    
+   })
   })
 
  
