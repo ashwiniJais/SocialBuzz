@@ -7,9 +7,11 @@ module.exports.create=async function(req,res){
             content:req.body.content,
             user:req.user._id
         });
+        req.flash('success','New Post Created successfully');
         return res.redirect('back');
 
     }catch(err){
+        req.flash('error','Error in creating new post')
         console.log("error in creating Post", err);
         return;
     }
@@ -27,12 +29,15 @@ module.exports.destroy=async function(req,res){
                 post.remove();
                 await Comment.deleteMany({post:req.params.id});
                     
+                req.flash("success",'Post deleted successfully')
                     return res.redirect('/');
                 }
             }else{
+                req.flash('error','error in deleting post');
                 return res.redirect('back');
             }
     }catch(err){
+        req.flash('error','error in deleting post');
         console.log("error in deleting Post", err);
         return;
     }

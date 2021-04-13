@@ -21,6 +21,11 @@ const MongoStore = require('connect-mongo').default;
 
 const sassMiddleware=require('node-sass-middleware');
 
+//connect-flash
+const flash=require('connect-flash');
+
+const customMware=require('./config/middleware');
+
 //using node-sass-middleware
 app.use(sassMiddleware({
     src:'./assets/scss',
@@ -69,6 +74,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(passport.setAuthenticatedUser);
+
+//using flash to set flash messages
+app.use(flash());
+app.use(customMware.setFlash);
+
+
 
 app.use('/',require('./routes/index'));
 

@@ -28,6 +28,7 @@ module.exports.update=function(req,res){
 
 module.exports.signIn=function(req,res){
     if(req.isAuthenticated()){
+      
         return res.redirect('/');
     }
     return res.render('user_sign_in',{
@@ -49,26 +50,31 @@ module.exports.create=function(req,res){
    //if passwords do not match
   // console.log(req.body);
     if(req.body.password!=req.body.confirm_password){
+        req.flash('error', 'Passwords do not match');
        return res.redirect('/users/sign-up');
    }
    //check if email already exists
    User.findOne({email:req.body.email},function(err,user){
        if(err){
-           console.log("Error in finding the email in DB");
+           req.flash("error",err);
+          // console.log("Error in finding the email in DB");
            return;
        }
        //email id do not exist
        if(!user){
             User.create(req.body,function(err,newuser){
                 if(err){
+                    req.flash("error",err);
                     console.log("Error in creating new user while signing up");
                     return;
                 }
+                req.flash('success', 'You have signed up, login to continue!');
                 return res.redirect('/users/sign-in');
             })
        }
        else{        //user exists
-           return res.redirect('back');
+        req.flash('success','You are already a user,Kindly sign in to continue')
+           return res.redirect('/users/sign-in');
        }
    })
 
@@ -77,11 +83,13 @@ module.exports.create=function(req,res){
 
 module.exports.createSession=function(req,res){
     //TODO later
+    req.flash('success', 'Logged in Successfully');
     return res.redirect('/');
 
 }
 
 module.exports.destroySession=function(req,res){
     req.logout();
+    req.flash('success','You have successfully logged out');
     res.redirect('/users/sign-in');
 }
