@@ -2,28 +2,30 @@ const Post=require('../models/posts');
 const User=require('../models/user');
 
 
-module.exports.home=function(req,res){
+module.exports.home=async function(req,res){
+  try{
 
-  Post.find({}).
-  populate('user').
-  populate({
-    path:'comments',
-    populate:{
-      path:'user'
-    }
-  }).
-  exec(function(err,post){
-   User.find({},function(err,user){
+    let post=await Post.find({})
+    .populate('user')
+    .populate({
+      path:'comments',
+      populate:{
+        path:'user'
+      }
+    });
+
+    let users=await User.find({});
 
     return res.render('home',{
-        title:"SocialBuzz | Home",
-        posts:post,
-        all_user:user
-      });
-    
-    
-   })
-  })
+      title:"SocialBuzz | Home",
+      posts:post,
+      all_user:users
+    });
 
- 
+
+  }catch(err){
+    console.log('Error',err);
+    return;
+  }
+
 };

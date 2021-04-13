@@ -1,50 +1,57 @@
 const Comment=require('../models/comments');
 const Post=require('../models/posts');
 
-module.exports.create=function(req,res){
-    Post.findById(req.body.post,function(err,post){
+module.exports.create=async function(req,res){
+    try{
+        let post=await Post.findById(req.body.post);
         if(post){
            // console.log(post);
-            Comment.create({
+           let comment =await Comment.create({
                 content:req.body.content,
                 post:req.body.post,
                 user:req.user._id
-            },function(err,comment){
-                if(err){console.log("error in posting comment",err);return ;}
-
-                post.comments.push(comment);
-                post.save();
-
-                res.redirect('/');
             });
-        }
-        else{
-            console.log("error in finding post while adding comments");
+               
+            post.comments.push(comment);
+            post.save();
+
+            res.redirect('/');
+        }else{
+           
             return res.redirect('/');
         }
         
-    })
+
+    }catch(err){
+        console.log("error in creating comment", err);
+        return;
+    }
+    
 };
 
-module.exports.destroy=function(req,res){
+module.exports.destroy=async function(req,res){
    //console.log(req.params);
-    Comment.findById(req.params.id,function(err,comment){
-        console.log("deletion of comment started");
-        console.log(comment);
-        console.log(comment.user);
-        if(comment.user==req.user.id){
+   try{
+        let comment=await Comment.findById(req.params.id);
+        // console.log("deletion of comment started");
+        // console.log(comment);
+        // console.log(comment.user);
+        if(comment.user==req.user.id){ 
+            let postId=await comment.post;
+            await comment.remove();
             
-            let postId=comment.post;
-
-            comment.remove();
-
-            Post.findByIdAndUpdate(postId,{$pull:{comments:req.params.id}},function(err,post){
+           await Post.findByIdAndUpdate(postId,{$pull:{comments:req.params.id}});
                 return res.redirect('back');
-            });
             
-        }else{
+        }
+        else{
             console.log("deletion of comment aborted due to unwanted reasons");
             return res.redirect('back');
         }
-    })
+    
+   }catch(err){
+        console.log("error in deleting comment", err);
+        return;
+   }
+    
 }
