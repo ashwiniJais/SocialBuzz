@@ -7,17 +7,18 @@
 
     <% if(locals.user){ %>
 
-    <form action="/posts/create" method="post">
-        <textarea name="content" id="new_post_form" cols="30" rows="5" placeholder="Heyy.. What's on your mind!! Share it with your friends"></textarea>
-        <input type="submit" value="Make a new Post">
+    <form action="/posts/create" method="post" id="new_post_form">
+        <textarea name="content" cols="30" rows="5" placeholder="Heyy.. What's on your mind!! Share it with your friends"></textarea>
+        <input type="submit" value="Post">
     </form>
 
     <%}%>
 
     <div id="post-container">
         <ul>
-            <%-  include('_posts'); -%>
-
+            <% for(post of posts){ %>
+                <%-  include('_posts'); -%>
+            <%}%>
         </ul>
     </div>
 
@@ -34,3 +35,5 @@
         <%}%>
     </ul>
 </section>
+
+<script src="/js/home_posts.js"></script>
