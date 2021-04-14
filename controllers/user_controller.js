@@ -12,18 +12,33 @@ module.exports.profile=function(req,res){
     // return res.send('<h1>Profile</h1>');
 }
 
-module.exports.update=function(req,res){
-    User.findByIdAndUpdate(req.params.id,{
-        name:req.body.name,
-        email:req.body.email
-    },function(err,user){
-        if(err){
-            console.log("error in updating user details",err);
+module.exports.update=async function(req,res){
+   
+    if(req.user.id==req.params.id){
+        try{
+            let user=await User.findById(req.params.id);
+            User.uploadedAvatar(req,res,function(err){
+                if(err){console.log("***multer error***",err);};
+                console.log(req.file);
+                user.name=req.body.name;
+                user.email=req.body.email;
+                if(req.file){
+                    //this is saving the path of the uploaded file in the avatar field in the user Schema
+
+                    user.avatar=User.avatarPath+ '/'+req.file.filename
+                }
+                user.save();
+                return res.redirect('/');
+            });
+
+        }catch(err){
+            req.flash('error',err);
             return res.redirect('back');
         }
-        console.log("user's details updated successfully");
-        return res.redirect('back');
-    })
+    }else{
+        req.flash('error','Unauthorized');
+        req.status(401).send('Unauthorized');
+    }
 }
 
 module.exports.signIn=function(req,res){
