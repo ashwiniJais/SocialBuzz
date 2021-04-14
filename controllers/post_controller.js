@@ -9,6 +9,9 @@ module.exports.create=async function(req,res){
         });
 
         if (req.xhr){
+            //if we want to populate the name of the user upon adding posts dynamically
+            post=await post.populate('user','name').execPopulate();
+          
             return res.status(200).json({
                 data: {
                     post: post
@@ -17,12 +20,12 @@ module.exports.create=async function(req,res){
             });
         }
 
-        req.flash('success','New Post Created successfully');
+        req.flash('success','Post published');
         return res.redirect('back');
 
     }catch(err){
         req.flash('error','Error in creating new post')
-        console.log("error in creating Post", err);
+       // console.log("error in creating Post", err);
         return;
     }
     
