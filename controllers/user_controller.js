@@ -25,10 +25,12 @@ module.exports.update=async function(req,res){
                 user.name=req.body.name;
                 user.email=req.body.email;
                 if(req.file){
-                    //this is saving the path of the uploaded file in the avatar field in the user Schema
+                   
                     if(user.avatar&&user.avatar>0){
+                        //what if a previous avatar already exists
                         fs.unlinkSync(path.join(__dirname,+'..'+user.avatar))
                     }
+                     //this is saving the path of the uploaded file in the avatar field in the user Schema
                     user.avatar=User.avatarPath+ '/'+req.file.filename
                 }
                 user.save();

@@ -16,6 +16,7 @@ const User=require('./models/user');
 const session=require('express-session');
 const passport=require('passport');
 const passportLocal=require('./config/passport-local-strategy');
+const passportGoogle=require('./config/passport-google-oauth2strategy');
 
 const MongoStore = require('connect-mongo').default;
 
@@ -88,7 +89,6 @@ app.use(express.static('./assets'));
 
 //make uploads path available in the browsers
 app.use('/uploads',express.static(__dirname+'/uploads'));
-
 
 
 app.listen(port,function(err){
