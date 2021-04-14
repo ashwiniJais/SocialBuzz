@@ -86,6 +86,8 @@ app.use('/',require('./routes/index'));
 //using static files
 app.use(express.static('./assets'));
 
+//make uploads path available in the browsers
+app.use('/uploads',express.static(__dirname+'/uploads'));
 
 
 
