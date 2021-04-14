@@ -1,15 +1,14 @@
 
-    <li id="post-<%=post._id%>">
+    <li id=<%=post._id%>>
          <% if (locals.user && locals.user.id==post.user.id){ %>
         <a class="delete-post-button" href="posts/delete/<%=post.id%>">X</a>
         <%}%>
         <p><%=post.content%></p>
         
         <small><%=post.user.name%></small>
+        <%-  include('_comments'); -%>
     </li>
 
-    <%-  include('_comments'); -%>
     
+     
     
-
-

@@ -14,6 +14,17 @@
                 success: function(data){
                    let newPost = newPostDOM(data.data.post);
                    $('#post-container>ul').prepend(newPost);
+                   deletePost($(' .delete-post-button', newPost));
+
+                   new Noty({
+                    theme: 'relax',
+                    text: "Post published!",
+                    type: 'success',
+                    layout: 'topRight',
+                    timeout: 1500
+                    
+                }).show();
+
                 }, error: function(error){
                     console.log(error.responseText);
                 }
@@ -26,35 +37,61 @@
     let newPostDOM=function(post){
         return $(` <li id="post-${post._id}">
                    
-                        <a class="delete-post-button" href="posts/delete/${post.id}">X</a>
+                        <a class="delete-post-button" href="posts/delete/${post._id}">X</a>
                 
-                    <p>${post.content}</p>
+                        <p>${post.content}</p>
                 
-                    <small>${post.user.name}</small>
-                    </li>
+                        <small>${post.user.name}</small>
                     
-                    <div class="comments_form">
+                    
+                        <div class="post-comment">
 
-                   
-
-                        <form action="/comments/create" method="post">
-                            <input type="text" name="content" required placeholder="Add a comment" >
-                            <input type="hidden" name="post" value="${post._id}">
-                            <input type="submit" value="Add a comment">
-                        </form>
-
-                   
-                    </div>
-                        <ul>
-                            <div class="comments_container">
-                                
+                            <form action="/comments/create" method="post">
+                                <input type="text" name="content" required placeholder="Add a comment" >
+                                <input type="hidden" name="post" value="${post._id}">
+                                <input type="submit" value="Add a comment">
+                            </form>
+                
+                        
+                            <div class="post-comment-list">
+                                <ul id="post-comments-${post._id}">
                             
+                                </ul>
                             </div>
-                        </ul>
+                        </div>
+                   
+                    </li>
                 `)
     }
     
+    //method to delete a post from DOM
 
+    let deletePost = function(deleteLink){
+        $(deleteLink).click(function(e){
+            e.preventDefault();
+            console.log("default precented");
+            $.ajax({
+                type: 'get',
+                url: $(deleteLink).prop('href'),
+                success: function(data){
+                    $(`#post-${data.data.post_id}`).remove();
+
+                    new Noty({
+                        theme: 'relax',
+                        text: "Post Deleted",
+                        type: 'success',
+                        layout: 'topRight',
+                        timeout: 1500
+                        
+                    }).show();
+
+                },error: function(error){
+                    console.log(error.responseText);
+                }
+            });
+
+        });
+    }
     createPost();
 }
 
