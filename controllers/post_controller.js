@@ -1,5 +1,6 @@
 const Post=require('../models/posts');
 const Comment=require('../models/comments');
+const postsMailer=require('../mailers/posts_mailer');
 
 module.exports.create=async function(req,res){
     try{
@@ -7,10 +8,11 @@ module.exports.create=async function(req,res){
             content: req.body.content, 
             user:req.user._id
         });
-
+        post=await post.populate('user','name email').execPopulate();
+        postsMailer.newPost(post);
         if (req.xhr){
-            //if we want to populate the name of the user upon adding posts dynamically
-            post=await post.populate('user','name').execPopulate();
+            // if we want to populate the name of the user upon adding posts dynamically
+            // post=await post.populate('user','name').execPopulate();
           
             return res.status(200).json({
                 data: {
