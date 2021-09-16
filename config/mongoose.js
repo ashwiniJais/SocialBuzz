@@ -1,22 +1,24 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/SocialBuzz_dev');
+// mongoose.connect('mongodb://localhost/SocialBuzz_dev');
 
-// const db = mongoose.connection;
+const mongoAtlasUri = process.env.MONGO_URI;
 
-const connectDB = async () => {
-  try {
-    const conn = await mongoose.connect(process.env.MONGO_URI, {
-      useUnifiedTopology: true,
-      useNewUrlParser: true,
-      useCreateIndex: true,
-    });
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
-  } catch (error) {
-    console.error(`Error :${error.message}`);
-    process.exit(1);
-  }
-};
+try {
+  // Connect to the MongoDB cluster
+  mongoose.connect(
+    mongoAtlasUri,
+    { useNewUrlParser: true, useUnifiedTopology: true },
+    () => console.log(' Mongoose is connected')
+  );
+} catch (e) {
+  console.log('could not connect');
+}
+
+//   const db = mongoose.connection;
+const dbConnection = mongoose.connection;
+dbConnection.on('error', (err) => console.log(`Connection error ${err}`));
+dbConnection.once('open', () => console.log('Connected to DB!'));
 
 // db.on('error', console.error.bind(console, 'Error in connecting to MongoDB'));
 
@@ -24,4 +26,4 @@ const connectDB = async () => {
 //   console.log('Successfully connected to MongoDB');
 // });
 
-module.exports = connectDB;
+module.exports = dbConnection;
