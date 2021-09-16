@@ -36,15 +36,15 @@ chatServer.listen(5000);
 console.log('chat server is listening on the port 5000');
 
 // using node-sass-middleware
-app.use(
-  sassMiddleware({
-    src: './assets/scss',
-    dest: './assets/css',
-    debug: true,
-    outputStyle: 'extended',
-    prefix: '/css',
-  })
-);
+// app.use(
+//   sassMiddleware({
+//     src: './assets/scss',
+//     dest: './assets/css',
+//     debug: true,
+//     outputStyle: 'extended',
+//     prefix: '/css',
+//   })
+// );
 
 //use layouts in our page
 app.use(expressLayouts);
@@ -104,4 +104,5 @@ app.listen(PORT, function (err) {
     return;
   }
   console.log(`Server is running fine on the port : ${PORT}`);
+  // console.log('Database_URL', process.env.MONGO_URI);
 });

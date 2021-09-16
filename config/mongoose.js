@@ -4,26 +4,18 @@ const mongoose = require('mongoose');
 
 const mongoAtlasUri = process.env.MONGO_URI;
 
-try {
-  // Connect to the MongoDB cluster
-  mongoose.connect(
-    mongoAtlasUri,
-    { useNewUrlParser: true, useUnifiedTopology: true },
-    () => console.log(' Mongoose is connected')
-  );
-} catch (e) {
-  console.log('could not connect');
-}
+mongoose
+  .connect(mongoAtlasUri, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+    useCreateIndex: true,
+  })
+  .then(() => console.log('MongoDB connected....'))
+  .catch((err) => console.log(err));
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'error in connecting to Mongodb'));
 
-//   const db = mongoose.connection;
-const dbConnection = mongoose.connection;
-dbConnection.on('error', (err) => console.log(`Connection error ${err}`));
-dbConnection.once('open', () => console.log('Connected to DB!'));
-
-// db.on('error', console.error.bind(console, 'Error in connecting to MongoDB'));
-
-// db.once('open', function () {
-//   console.log('Successfully connected to MongoDB');
-// });
-
-module.exports = dbConnection;
+db.once('open', function () {
+  console.log('Connected to Database:: Mongodb');
+});
+module.exports = db;
