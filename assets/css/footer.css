@@ -1,6 +1,6 @@
 footer {
   position: sticky;
-  bottom: 0;
+  top: 100%;
   background: #36D1DC;
   /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #5B86E5, #36D1DC);

@@ -1,13 +1,14 @@
-const express=require('express');
-const router=express.Router();
+const express = require('express');
+const router = express.Router();
 
-const homeController=require('../controllers/home_controller');
+const homeController = require('../controllers/home_controller');
 
-console.log("router connected");
+console.log('router connected');
 
-router.use('/users',require('./users'));
-router.use('/posts',require('./posts'));
-router.use('/comments',require('./comments'));
+router.use('/users', require('./users'));
+router.use('/posts', require('./posts'));
+router.use('/comments', require('./comments'));
+router.use('/likes', require('./likes'));
 router.get('/', homeController.home);
 
-module.exports=router;
+module.exports = router;

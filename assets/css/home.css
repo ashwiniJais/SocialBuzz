@@ -1,10 +1,8 @@
 body {
   background-color: aqua; }
   body #feed_post {
-    display: flex;
     margin: 10px;
     width: 80%; }
   body #user_friends {
     padding: 10px;
-    display: flex;
     width: 20%; }

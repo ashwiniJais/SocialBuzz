@@ -1,11 +1,14 @@
 <header>
+    <nav class="navbar navbar-default navbar-fixed-top"></nav>
+      
+     
     <a href="/"><h1>SocialBuzz</h1></a>
     
 
     <ul class="header-menu">
         <% if(locals.user){%>
 
-            <li><a href="/users/profile"><%=user.name%></a></li>
+            <li><a href="/users/profile/<%=user.id%>"><%=user.name%></a></li>
             <li><a href="/users/sign-out">Sign Out</a></li>
 
         <%}else{%>
@@ -13,4 +16,5 @@
             <li><a href="/users/sign-up">Sign Up</a></li>
         <%}%>
     </ul>
+</nav>
 </header>
