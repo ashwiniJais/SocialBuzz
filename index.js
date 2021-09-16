@@ -3,6 +3,7 @@ const PORT = process.env.PORT || 8000;
 
 const app = express();
 const dotenv = require('dotenv');
+
 dotenv.config();
 //require library for layout
 const expressLayouts = require('express-ejs-layouts');
