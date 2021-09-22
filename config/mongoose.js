@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-
-// mongoose.connect('mongodb://localhost/SocialBuzz_dev');
+const env = require('./environment');
+// mongoose.connect(`mongodb://localhost/${env.db}`);
 
 const mongoAtlasUri = process.env.MONGO_URI;
 
