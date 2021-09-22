@@ -6,7 +6,7 @@ const mongoAtlasUri = process.env.MONGO_URI;
 
 mongoose
   .connect(mongoAtlasUri, {
-    useUnifiedTopology: true,
+    useUnifiedTopology: false,
     useNewUrlParser: true,
     useCreateIndex: true,
   })
