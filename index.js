@@ -58,7 +58,7 @@ const path = require('path');
 app.use(expressLayouts);
 
 //to read form data
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: false }));
 
 //using cookieParser
 app.use(cookieParser());
