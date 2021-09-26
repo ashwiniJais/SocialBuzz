@@ -2,6 +2,10 @@ const fs = require('fs');
 const rfs = require('rotating-file-stream');
 const path = require('path');
 
+const dotenv = require('dotenv');
+
+dotenv.config();
+
 const logDirectory = path.join(__dirname, '../production_logs');
 fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
 
@@ -64,4 +68,4 @@ const production = {
 //     ? development
 //     : eval(process.env.SOCIALBUZZ_ENVIRONMENT);
 
-module.exports = development;
+module.exports = production;
