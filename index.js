@@ -101,7 +101,7 @@ app.use(customMware.setFlash);
 app.use('/', require('./routes/index'));
 
 //using static files
-app.use(express.static(env.asset_path));
+app.use(express.static(__dirname + '/assets'));
 
 //make uploads path available in the browsers
 app.use('/uploads', express.static(__dirname + '/uploads'));

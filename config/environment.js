@@ -64,4 +64,4 @@ const production = {
 //     ? development
 //     : eval(process.env.SOCIALBUZZ_ENVIRONMENT);
 
-module.exports = production;
+module.exports = development;
